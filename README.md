@@ -1,6 +1,6 @@
-# Nanoc Template - HAML, SASS, Compass, CoffeeScript
+# Nanoc3 Template - HAML, SASS, Compass, CoffeeScript
 
-### Prepare
+## Prepare
 
     git clone git://github.com/meskyanichi/nanoc-template-hsccs.git my_site_name
     cd my_site_name && bundle install
@@ -8,19 +8,20 @@
 
 Now visit `http://127.0.0.1:3000/` and there you go.
 
-### Ready to roll with
+## Ready to roll with
 
 * HAML
 * SASS and the Compass framework
 * CoffeeScript
 
-### Also contains Rake tasks for
+## Also contains Rake tasks for
 
-* Optimising JPEG and PNG images (using jpegoptim and optipng)
-* Compressing CSS files (using YUI Compressor)
-* Compressing JavaScript files (using YUI Compressor)
-* Compressing HTML and XML files (using htmlcompressor)
+* RSync (fast / mirroring) deployment
+* Optimizing JPG and PNG images (using jpegoptim/optipng OSX/Ubuntu packages)
+* Compressing Stylesheet and JavaScript files (using YUI Compressor Gem)
 
 ### Credits
 
-Template taken from [nanoc-base](https://github.com/johngrimes/nanoc-base) and modified to look more like the typical Rails layout. All gems from the `Gemfile` updated to the latest version and working.
+Initial work taken from [nanoc-base](https://github.com/johngrimes/nanoc-base) and modified to look more like the typical Rails layout.
+
+All gems from the `Gemfile` updated to the latest version and working (as of writing). Rewrote the Rakefile to use YUI-Compressor gem for CSS/JS files, added a nice RSync wrapper for deployment (mirroring), added instructions for installing packages on OSX/Ubuntu for utilizing the JPG and PNG file optimizer rake tasks, moved files and folders around to give it a more Rails-like feel, and more!
