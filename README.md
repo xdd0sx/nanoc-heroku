@@ -2,9 +2,9 @@
 
 ### Prepare
 
-    git clone git://github.com/meskyanichi/nanoc-template-hsccs.git my\_site\_name
-    bundle install
-    nano autocompile
+    git clone git://github.com/meskyanichi/nanoc-template-hsccs.git my_site_name
+    cd my_site_name && bundle install
+    nanoc autocompile
 
 Now visit `http://127.0.0.1:3000/` and there you go.
 
