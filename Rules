@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+require 'compass'
+Compass.add_project_configuration 'compass_config.rb'
+
+sass_options = Compass.sass_engine_options
+haml_options = { :format => :html5 }
+
+# A few helpful tips about the Rules file:
+#
+# * The order of rules is important: for each item, only the first matching
+#   rule is applied.
+#
+# * Item identifiers start and end with a slash (e.g. “/about/” for the file
+#   “content/about.html”). To select all children, grandchildren, … of an
+#   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
+#   because “*” matches zero or more characters.
+
+compile '/stylesheets/*/' do
+  case item[:extension]
+    when 'sass'
+      filter :sass, sass_options
+    when 'css'
+      # Nothing
+  end
+end
+
+compile '/javascripts/*/' do
+  case item[:extension]
+    when 'coffee'
+      filter :coffee
+    when 'js'
+      # Nothing
+  end
+end
+
+compile '*' do
+  if item[:extension] == 'haml' 
+    filter :haml, haml_options
+    layout 'default'
+  end
+end
+
+route '/images/*/' do
+  item.identifier.chop + '.' + item[:extension]
+end
+
+route '/stylesheets/*/' do
+  item.identifier.chop + '.css'
+end
+
+route '/javascripts/*/' do
+  item.identifier.chop + '.js'
+end
+
+route '*' do
+  item.identifier + 'index.html'
+end
+
+layout '*', :haml, haml_options

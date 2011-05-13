@@ -1,0 +1,9 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'UTF-8'}
+    %title= @item[:title]
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/application.css'}
+    %script{:type => 'text/javascript', :src => '/javascripts/application.js'}
+  %body
+    = yield

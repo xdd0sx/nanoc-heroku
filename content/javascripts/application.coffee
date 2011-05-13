@@ -1,0 +1,2 @@
+this.hello ->
+  alert 'hi!'
