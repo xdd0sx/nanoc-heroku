@@ -9,3 +9,5 @@ gem 'haml'
 gem 'compass'
 gem 'maruku'
 gem 'builder'
+
+gem 'yui-compressor'

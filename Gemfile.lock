@@ -1,6 +1,10 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    POpen4 (0.1.4)
+      Platform (>= 0.4.0)
+      open4
+    Platform (0.4.0)
     adsf (1.0.1)
       rack (>= 1.0.0)
     builder (3.0.0)
@@ -19,9 +23,12 @@ GEM
       nanoc3 (>= 3.1.7)
     nanoc3 (3.1.7)
       cri (>= 1.0.0)
+    open4 (1.0.1)
     rack (1.2.2)
     sass (3.1.1)
     syntax (1.0.0)
+    yui-compressor (0.9.6)
+      POpen4 (>= 0.1.4)
 
 PLATFORMS
   ruby
@@ -35,3 +42,4 @@ DEPENDENCIES
   mime-types
   nanoc
   rack
+  yui-compressor
