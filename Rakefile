@@ -17,7 +17,7 @@
 desc 'Deploy the static site via RSync'
 task :deploy do
   puts 'RSyncing website..'
-  puts %x[rsync -avhz --progress --delete output/ deployer@sample.com:path/to/my/site/]
+  puts %x[rsync -avhz --progress --delete --rsh='ssh -p22' output/ deployer@sample.com:path/to/my/site/]
 end
 
 ##
