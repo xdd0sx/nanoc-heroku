@@ -11,3 +11,7 @@ gem 'maruku'
 gem 'builder'
 
 gem 'yui-compressor'
+
+gem 'rb-fsevent'
+gem 'growl'
+gem 'guard-nanoc'
