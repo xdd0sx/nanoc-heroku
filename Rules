@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'compass'
-Compass.add_project_configuration 'compass_config.rb'
+Compass.add_project_configuration './config/compass.rb'
 
 sass_options = Compass.sass_engine_options
 haml_options = { :format => :html5 }
