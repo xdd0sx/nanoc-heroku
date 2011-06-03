@@ -14,18 +14,21 @@
 #
 # Modify the "puts %x[rsync ...]" line
 #
-desc 'Deploy the static site via RSync'
-task :deploy do
-  puts 'RSyncing website..'
+desc 'Deploy the website via RSync after re-compiling from scratch for production and optimizing all assets'
+task :deploy => ['recompile', 'optimize:all'] do
+  puts 'Deploying website..'
   puts %x[rsync -avhz --progress --delete --rsh='ssh -p22' output/ deployer@sample.com:path/to/my/site/]
+
+  puts 'Finished deploying! Re-compiling for development mode..'
+  change_base_url_to('http://localhost:3000')
+  compile!
 end
 
-##
-# Same as :deploy, except that it first optimizes all
-# JPG, PNG, Stylesheet and JavaScript files before deploying
-#
-desc 'Deploy the static site via RSync after optimization'
-task :deploy_optimized => ['optimize:all', :deploy]
+desc 'Re-compile the website from scratch for deployment'
+task :recompile do
+  change_base_url_to('http://mydomain.com')
+  compile!
+end
 
 ##
 # A couple of rake tasks that'll optimize JPG, PNG, JavaScripts and Stylesheet files
@@ -99,4 +102,27 @@ namespace :optimize do
   #
   desc 'Optimize all JPG, PNG, Stylesheet and JavaScript files in the output directory'
   task :all => [:jpg, :png, :javascripts, :stylesheets]
+end
+
+##
+# Use this method to change the base url in the configuration file
+# so you can automate that instead of manually changing it everytime
+# when you want to deploy the website
+#
+def change_base_url_to(url)
+  puts "Changing Base URL to #{url}.."
+  config = YAML.load_file('./config.yaml')
+  config['base_url'] = url
+  File.open('./config.yaml', 'w') do |file|
+    file.write(config.to_yaml)
+  end
+end
+
+##
+# Re-compile by removing the output directory and re-compiling
+#
+def compile!
+  puts "Compiling Website.."
+  %x[rm -rf output]
+  %x[nanoc compile]
 end
