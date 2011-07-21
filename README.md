@@ -5,7 +5,7 @@ A skeleton [nanoc](http://nanoc.stoneship.org/) application that supports render
 ## Prepare
 
     git clone git://github.com/meskyanichi/nanoc-heroku.git my_site_name
-    cd my_site_name && bundle
+    cd my_site_name && git remote rm origin && bundle
 
 ## Start the file server
 
