@@ -1,4 +1,6 @@
-# Nanoc3 Template - HAML, SASS, Compass, CoffeeScript and Heroku Deployment
+# Nanoc Heroku
+
+A skeleton [nanoc](http://nanoc.stoneship.org/) application that supports rendering haml, compass, coffeescript, markdown and builder right out of the box, and deploys the website to Heroku for free with ease in a matter of seconds.
 
 ## Prepare
 
