@@ -1,8 +1,6 @@
 # encoding: utf-8
 
 require 'bundler'
-require 'mime/types'
-
 Bundler.require
 
 use Rack::ETag
