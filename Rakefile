@@ -1,33 +1,29 @@
+# encoding: utf-8
+
+require 'yaml'
+
 ##
 # Load Nanoc3 tasks for additional validators
 #
 # require 'nanoc3/tasks'
 
 ##
-# RSync-based deployment
+# Configurable Constants
 #
-# Performant/Fast mirroring with RSync:
-#  Will compress data during transfer to lower bandwidth and improve transfer speed.
-#  Will output human readable data.
-#  Will mirror the local output directory with the remote server,
-#  remote files that don't exist locally will be deleted.
-#
-# Modify the "puts %x[rsync ...]" line
-#
-desc 'Deploy the website via RSync after re-compiling from scratch for production and optimizing all assets'
-task :deploy => ['recompile', 'optimize:all'] do
-  puts 'Deploying website..'
-  puts %x[rsync -avhz --progress --delete --rsh='ssh -p22' output/ deployer@sample.com:path/to/my/site/]
+BASE_URL = 'http://myapp.herokuapp.com'
 
-  puts 'Finished deploying! Re-compiling for development mode..'
-  change_base_url_to('http://localhost:3000')
+##
+# Heroku-based Deployment
+#
+# Requires a Heroku Application (a heroku remote) that runs on Celadon Cedar
+#
+desc 'Deploy the website to Heroku using Git.'
+task :deploy do
+  prepare!
   compile!
-end
-
-desc 'Re-compile the website from scratch for deployment'
-task :recompile do
-  change_base_url_to('http://mydomain.com')
-  compile!
+  Rake::Task["optimize:all"].invoke
+  deploy!
+  revert!
 end
 
 ##
@@ -122,7 +118,42 @@ end
 # Re-compile by removing the output directory and re-compiling
 #
 def compile!
-  puts "Compiling Website.."
-  %x[rm -rf output]
-  %x[nanoc compile]
+  puts "Compiling website.."
+  puts %x[rm -rf output]
+  puts %x[nanoc compile]
+end
+
+##
+# Prepares the deployment environment
+#
+def prepare!
+  puts "Creating and moving in to \"deployment\" branch.."
+  puts %x[git checkout -b deployment]
+
+  puts "Removing \"output\" directory from .gitignore.."
+  gitignore = File.read(".gitignore")
+  File.open(".gitignore", "w") do |file|
+    file.write(gitignore.gsub("output", ""))
+  end
+
+  change_base_url_to(BASE_URL)
+end
+
+##
+# Moves back to the "master" branch and removes the "deployment" branch
+#
+def revert!
+  %x[git checkout master]
+  %x[git branch -D deployment]
+end
+
+##
+# Deploys the application via git to Heroku
+#
+def deploy!
+  puts "Adding and committing compiled output for deployment.."
+  puts %x[git add .]
+  puts %x[git commit -a -m "temporary commit for deployment"]
+  puts 'Deploying to Heroku..'
+  puts %x[git push heroku HEAD:master --force]
 end

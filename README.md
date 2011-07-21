@@ -1,9 +1,9 @@
-# Nanoc3 Template - HAML, SASS, Compass, CoffeeScript
+# Nanoc3 Template - HAML, SASS, Compass, CoffeeScript and Heroku Deployment
 
 ## Prepare
 
     git clone git://github.com/meskyanichi/nanoc-template-hsccs.git my_site_name
-    cd my_site_name && bundle install
+    cd my_site_name && bundle
 
 ## Start the file server
 
@@ -37,13 +37,22 @@ Now visit `http://127.0.0.1:3000/` and there you go. This should display your we
 
 ## Also contains Rake tasks for
 
-* RSync (fast / mirroring) deployment
 * Optimizing JPG and PNG images (using jpegoptim/optipng OSX/Ubuntu packages)
 * Compressing Stylesheet and JavaScript files (using YUI Compressor Gem)
 
 
-## Credits
+## Heroku Deployment
 
-Initial work taken from [nanoc-base](https://github.com/johngrimes/nanoc-base) and further improved in various ways.
+Even though this is a static site, it is nice to be able to deploy to Heroku's platform to remove any form of server management. Whether it's deployment, maintaining the web server, maintaining the actual server and operating system itself. Not having to worry whether the site is up or crashed, and so forth. Not to mention, this solution is completely free and takes no time to set up!
 
-All gems from the `Gemfile` updated to the latest version and working (as of writing). Rewrote the Rakefile to use YUI-Compressor gem for CSS/JS files, added a nice RSync wrapper for deployment (mirroring), added instructions for installing packages on OSX/Ubuntu for utilizing the JPG and PNG file optimizer rake tasks, moved files and folders around to give it a more Rails-like feel, and more!
+First of all, ensure you have a [Heroku](http://heroku.com/) account. Once you're ready to deploy, ensure you have created a Heroku application to deploy to.
+
+    heroku create myapp --stack cedar
+
+Be sure you pass the `--stack cedar` to the command to create a Celadon Cedar stack, this is required.
+
+Next, be sure your code has been committed on the "master" branch and that it is ready to be deployed. Once ready, run the following command:
+
+    rake deploy
+
+This will create a new branch called "deployment" and switch to it. It will then do all the dirty work such as setting the base_url, re-compiling the whole website (after removing the old ./output directory), optimizing all assets (css/js/images), add and commit it. Then it will push the "deployment" branch to "heroku:master". Your website should now be deployed. Once done it'll automatically switch back to the "master" branch and remove the "deployment" branch, so you're back where you were prior to the deployment procedure.
